@@ -1,0 +1,50 @@
+---
+title: "17 Dates and Times"
+format:
+  revealjs:
+    incremental: true
+    slide-number: true
+    embed-resources: true
+
+bibliography: references.bib
+---
+
+## 17.1 Introduction
+
+In real life, dates and times help us to organize our lives. However, they can be complicated in coding. Today, we will handle this topic.
+
+Let's start with most common problems.
+
+How many days are there in a year, and how many hours are there in a day?
+
+------------------------------------------------------------------------
+
+Most years have 365 days, but leap years have 366. But what is the rule of leap year?
+
+<div>
+
+-   A year is a leap year if it's divisible by 4
+
+-   unless it's also divisible by 100
+
+-   except if it's also divisible by 400
+
+</div>
+
+------------------------------------------------------------------------
+
+"A year is a leap year if it's divisible by 4, unless it's also divisible by 100, except if it's also divisible by 400. In other words, in every set of 400 years, there's 97 leap years." [@wickham2023r]
+
+------------------------------------------------------------------------
+
+"The number of hours in a day is a little less obvious: most days have 24 hours, but in places that use daylight saving time (DST), one day each year has 23 hours and another has 25." [@wickham2023r]
+
+------------------------------------------------------------------------
+
+"Dates and times are hard because they have to reconcile two physical phenomena (the rotation of the Earth and its orbit around the sun) with a whole raft of geopolitical phenomena including months, time zones, and DST." [@wickham2023r]
+
+------------------------------------------------------------------------
+
+Let's learn how to create date-times from various inputs, and then once you've got a date-time, how you can extract components like year, month, and day.
+
+## References

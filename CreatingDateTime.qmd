@@ -1,0 +1,98 @@
+---
+title: "R4DS_17_2_Creating Date/Times"
+format: html
+---
+
+## 17.1.1 Prerequisites
+
+This chapter will focus on the **lubridate** package, which makes it easier to work with dates and times in R. As of the latest tidyverse release, lubridate is part of core **tidyverse**. We will also need **nycflights13** for practice data.
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+```
+
+## 17.2 Creating Date/Time
+
+There are 3 types of date/time data.
+
+**date**
+
+**time**
+
+**date-time**
+
+Use always simplest data type. For this topic, use a date if possible. Date-times are more complicated since you should handle with the time zones.
+
+To obtain current date you can use `today()`, to obtain current date-time you can use `now()`
+
+```{r}
+today()
+now()
+```
+
+### 17.2.1 During import
+
+If your CSV uses an international standard (ISO8601), there is no problem to import the date data.
+
+```{r}
+csv <- "
+  date,datetime
+  2022-01-02,2022-01-02 05:12
+"
+read_csv(csv)
+
+```
+
+In this standard, date are separated as year, month, and day by `-`. For example, Nov 21 2023 is `2023-11-21`.
+
+The time are separated as hour, minute, and second by `:`.
+
+The date and time components are separated by either `T` or a space. For example 11.30 Nov 21 2023 is `2023-11-21 11:30` or `2023-11-21T11:30`.
+
+For other date-time formats, you'll need to use `col_types()` and `col_date()` or `col_time()`. For example, `%Y-%m-%d` specifies a date that's year, `-`, month (as number) `-`, day. You can see from `Table 17.1: All date formats understood by readr`.
+
+Let's try this format.
+
+```{r}
+csv <- "
+  date
+  01/02/15
+"
+
+read_csv(csv, col_types = cols(date = col_date("%m/%d/%y")))
+#> # A tibble: 1 × 1
+#>   date      
+#>   <date>    
+#> 1 2015-01-02
+
+read_csv(csv, col_types = cols(date = col_date("%d/%m/%y")))
+#> # A tibble: 1 × 1
+#>   date      
+#>   <date>    
+#> 1 2015-02-01
+
+read_csv(csv, col_types = cols(date = col_date("%y/%m/%d")))
+#> # A tibble: 1 × 1
+#>   date      
+#>   <date>    
+#> 1 2001-02-15
+
+
+csv <- "
+  date
+  26/Apr/16
+"
+read_csv(csv, col_types = cols(date = col_date("%d/%b/%y")))
+
+csv <- "
+  date
+  26/Mart/16
+"
+library(readr)
+read_csv(csv, col_types = cols(date = col_date(format = "%d/%B/%y")), locale = readr::locale('tr'))
+
+
+```
+
+If you want to the name of month, you can use `%b` or `%B` for abbreviated or full name. However, you should be careful working with non-English dates, you'll also need to provide a `locale()`.
